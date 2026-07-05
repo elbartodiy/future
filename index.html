@@ -37,7 +37,8 @@ header{flex:0 0 auto;padding:11px 14px 8px;display:flex;align-items:center;gap:1
 .zoomctl{position:absolute;right:12px;bottom:118px;display:flex;flex-direction:column;gap:6px;z-index:15}
 .zoomctl button{width:38px;height:38px;border-radius:10px;background:rgba(16,24,32,.9);border:1px solid var(--line);color:var(--ink);font-size:19px;cursor:pointer;backdrop-filter:blur(6px)}
 .zoomctl button:active{background:#243748}
-.legend{position:absolute;left:10px;top:10px;z-index:15;display:flex;flex-wrap:wrap;gap:5px;max-width:60%}
+.legend{position:absolute;left:10px;top:56px;z-index:15;display:flex;flex-direction:column;gap:5px;max-width:78%}
+.legend .lg-row{display:flex;flex-wrap:wrap;gap:5px}
 .lg{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--dim);background:rgba(14,20,26,.82);border:1px solid var(--line);border-radius:16px;padding:4px 8px;backdrop-filter:blur(6px);cursor:pointer}
 body.light .lg{background:rgba(255,255,255,.85)}
 .lg.off{opacity:.3}.lg .dot{width:8px;height:8px;border-radius:50%}
@@ -1169,7 +1170,18 @@ function applyFilters(){
 }
 timeEl.addEventListener('input',applyFilters);
 const legend=document.getElementById('legend');
-Object.entries(LAYERS).forEach(([k,v])=>{const d=document.createElement('div');d.className='lg';d.innerHTML=`<span class="dot" style="background:${v.color}"></span>${v.name}`;d.addEventListener('click',()=>{offLayers.has(k)?(offLayers.delete(k),d.classList.remove('off')):(offLayers.add(k),d.classList.add('off'));applyFilters()});legend.appendChild(d)});
+/* Две строки вместо авто-переноса: ресурсы/экология/потребление/контроль сверху, миграция/AI/роботы снизу — чтобы не сливалось в одну кашу на узких экранах. */
+const LEGEND_ROWS=[['resources','ecology','consumption','control'],['migration','ai','robots']];
+LEGEND_ROWS.forEach(rowKeys=>{
+  const row=document.createElement('div');row.className='lg-row';
+  rowKeys.forEach(k=>{
+    const v=LAYERS[k];
+    const d=document.createElement('div');d.className='lg';d.innerHTML=`<span class="dot" style="background:${v.color}"></span>${v.name}`;
+    d.addEventListener('click',()=>{offLayers.has(k)?(offLayers.delete(k),d.classList.remove('off')):(offLayers.add(k),d.classList.add('off'));applyFilters()});
+    row.appendChild(d);
+  });
+  legend.appendChild(row);
+});
 const civcap=document.getElementById('civcap');
 Object.entries(CIVS).forEach(([k,v])=>{const d=document.createElement('div');d.className='civchip';d.innerHTML=`<span class="dot" style="background:${v.color}"></span>${v.name}`;civcap.appendChild(d)});
 const cAll=document.getElementById('c-all'),cFact=document.getElementById('c-fact'),cSpec=document.getElementById('c-spec');
