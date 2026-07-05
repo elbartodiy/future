@@ -1198,7 +1198,10 @@ function pickNode(clientX,clientY){
   mouseNDC.x=((clientX-rect.left)/rect.width)*2-1;
   mouseNDC.y=-((clientY-rect.top)/rect.height)*2+1;
   raycaster.setFromCamera(mouseNDC,camera);
-  const dots=Object.values(nodeObjs).map(o=>o.dot);
+  // Three.js raycasting ignores object.visible — must filter manually, otherwise nodes hidden by
+  // the time slider / layer toggle / cert filter still "steal" clicks and hover meant for what's
+  // actually on screen (this is what made flow-arrow clicks and hover feel random/broken).
+  const dots=Object.values(nodeObjs).filter(o=>o.dot.visible).map(o=>o.dot);
   const hits=raycaster.intersectObjects(dots);
   if(hits.length) return hits[0].object.userData.id;
   return null;
