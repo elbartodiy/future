@@ -22,11 +22,7 @@ body{background:var(--bg);color:var(--ink);font-family:"Inter",system-ui,-apple-
 header{flex:0 0 auto;padding:11px 14px 8px;display:flex;align-items:center;gap:10px;z-index:30}
 .brand b{font-size:14px;font-weight:600;display:block;line-height:1.1}
 .brand span{font-size:9.5px;color:var(--dim);letter-spacing:.13em;text-transform:uppercase}
-.viewtabs{margin-left:auto;display:flex;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
-.viewtabs button{background:transparent;border:0;color:var(--dim);font-size:11.5px;font-weight:500;padding:7px 11px;border-radius:8px;cursor:pointer}
-.viewtabs button.on{background:#243748;color:var(--ink)}
-body.light .viewtabs button.on{background:#dbe4ec}
-.twbtn{width:34px;height:34px;border-radius:9px;background:var(--panel);border:1px solid var(--line);color:var(--dim);font-size:15px;cursor:pointer}
+.twbtn{margin-left:auto;width:34px;height:34px;border-radius:9px;background:var(--panel);border:1px solid var(--line);color:var(--dim);font-size:15px;cursor:pointer}
 .twbtn.on{color:var(--ink);border-color:#3a4d5e}
 #appwrap{flex:1 1 auto;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
 #appwrap.bp-tablet #stage{max-width:768px}
@@ -48,12 +44,13 @@ body.light .lg{background:rgba(255,255,255,.85)}
 .civcap{position:absolute;left:10px;top:52px;z-index:15;display:flex;flex-wrap:wrap;gap:5px;max-width:70%}
 .civchip{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--dim);background:rgba(14,20,26,.82);border:1px solid var(--line);border-radius:16px;padding:4px 9px;backdrop-filter:blur(6px)}
 .civchip .dot{width:9px;height:9px;border-radius:2px}
-.infnote{position:absolute;right:12px;top:12px;z-index:15;font-size:10px;color:var(--faint);max-width:130px;text-align:right;line-height:1.4;background:rgba(10,14,18,.7);padding:6px 8px;border-radius:8px}
-.idxsel{position:absolute;left:10px;top:10px;z-index:15;display:flex;flex-wrap:wrap;gap:5px;max-width:78%}
+.rightpanel{position:absolute;right:12px;top:10px;z-index:15;display:flex;flex-direction:column;align-items:flex-end;gap:8px;max-width:82%}
+.infnote{font-size:10px;color:var(--faint);max-width:170px;text-align:right;line-height:1.4;background:rgba(10,14,18,.7);padding:6px 8px;border-radius:8px}
+.idxsel{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px}
 .idxsel button{font-size:10.5px;color:var(--dim);background:rgba(14,20,26,.82);border:1px solid var(--line);border-radius:16px;padding:5px 10px;backdrop-filter:blur(6px);cursor:pointer}
 .idxsel button.on{background:#243748;color:var(--ink);border-color:#3a4d5e}
 .idxsel button.soon{opacity:.4;cursor:default}
-.idxlegend{position:absolute;right:12px;top:12px;z-index:15;background:rgba(10,14,18,.82);border:1px solid var(--line);border-radius:10px;padding:9px 11px;max-width:160px;backdrop-filter:blur(6px)}
+.idxlegend{background:rgba(10,14,18,.82);border:1px solid var(--line);border-radius:10px;padding:9px 11px;max-width:200px;backdrop-filter:blur(6px)}
 .idxbar{height:8px;border-radius:4px;background:linear-gradient(90deg,#8a3a3a,#36c5c0)}
 .idxswatches{display:flex;flex-direction:column;gap:6px}
 .idxswatches .sw-row{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink)}
@@ -130,10 +127,6 @@ body.light .colorpick{background:#eef2f5}
 <body>
 <header>
   <div class="brand"><b>Карта перехода</b><span>факты · слои · влияние</span></div>
-  <div class="viewtabs">
-    <button id="tab-map" class="on">Карта</button>
-    <button id="tab-inf">Влияние</button>
-  </div>
   <button class="twbtn" id="tw-toggle" title="Tweaks">⚙</button>
 </header>
 <div id="appwrap">
@@ -142,15 +135,17 @@ body.light .colorpick{background:#eef2f5}
       <canvas id="glcanvas"></canvas>
       <div class="legend" id="legend"></div>
       <div class="civcap" id="civcap" style="display:none"></div>
-      <div class="idxsel" id="idxsel" style="display:none"></div>
-      <div class="idxlegend" id="idxlegend" style="display:none">
-        <div class="idxbar" id="idxbar"></div>
-        <div class="idxlabels" id="idxlabels"><span id="idxlow"></span><span id="idxhigh"></span></div>
-        <div class="idxswatches" id="idxswatches" style="display:none"></div>
-        <div class="idxmeta" id="idxmeta"></div>
-        <button id="pyrShowTiers" style="display:none;margin-top:10px;background:#243748;border:1px solid var(--line);color:var(--ink);font-size:11.5px;padding:8px 12px;border-radius:9px;cursor:pointer;width:100%">📋 Показать список ярусов</button>
+      <div class="rightpanel" id="rightpanel">
+        <div class="idxsel" id="idxsel"></div>
+        <div class="idxlegend" id="idxlegend" style="display:none">
+          <div class="idxbar" id="idxbar"></div>
+          <div class="idxlabels" id="idxlabels"><span id="idxlow"></span><span id="idxhigh"></span></div>
+          <div class="idxswatches" id="idxswatches" style="display:none"></div>
+          <div class="idxmeta" id="idxmeta"></div>
+          <button id="pyrShowTiers" style="display:none;margin-top:10px;background:#243748;border:1px solid var(--line);color:var(--ink);font-size:11.5px;padding:8px 12px;border-radius:9px;cursor:pointer;width:100%">📋 Показать список ярусов</button>
+        </div>
+        <div class="infnote" id="infnote" style="display:none">Двигай время — зоны влияния растут и сжимаются</div>
       </div>
-      <div class="infnote" id="infnote" style="display:none">Двигай время — зоны влияния растут и сжимаются</div>
       <div class="zoomctl"><button id="zin">+</button><button id="zout">−</button><button id="zreset" style="font-size:13px">⊙</button></div>
     </div>
     <div class="pyrdrawer" id="view-pyr">
@@ -1185,31 +1180,46 @@ play.onclick=()=>{playing=!playing;play.textContent=playing?'⏸':'▶';if(playi
 function stepA(){if(!playing)return;let v=+timeEl.value;v=v>=2046?1970:v+1;timeEl.value=v;applyFilters();setTimeout(()=>requestAnimationFrame(stepA),v<2026?60:130)}
 
 /* views */
-const tabMap=document.getElementById('tab-map'),tabInf=document.getElementById('tab-inf');
 const vMap=document.getElementById('view-map'),vPyr=document.getElementById('view-pyr');
 const timewrap=document.getElementById('timewrap'),legendEl=document.getElementById('legend'),civcapEl=document.getElementById('civcap'),infnote=document.getElementById('infnote');
-function toMap(){mode='map';tabMap.classList.add('on');tabInf.classList.remove('on');vPyr.classList.remove('open');timewrap.style.display='';civGlowGroup.visible=false;borderGroup.visible=false;indexGroup.visible=false;energyGroup.visible=false;refBorderGroup.visible=false;nodeGroup.visible=true;arcGroup.visible=true;legendEl.style.display='';civcapEl.style.display='none';infnote.style.display='none';idxsel.style.display='none';idxlegend.style.display='none';applyFilters()}
-function toInfluence(){mode='influence';tabInf.classList.add('on');tabMap.classList.remove('on');vPyr.classList.remove('open');nodeGroup.visible=false;arcGroup.visible=false;legendEl.style.display='none';idxsel.style.display='flex';selectIndex(currentIndexId)}
+/* Единый список режимов: "Карта" (граф фактов) — такой же переключаемый пункт, как и любой тематический индекс,
+   просто со своим типом рендера (kind:'graph') вместо choropleth/civ/gradient/flow. */
+const MAP_MODE_DEF={id:'map',name:'Карта',ready:true,kind:'graph',
+  methodology:'Граф конкретных фактов и прогнозов (не абстракция и не индекс страны): каждый узел — реальное событие, отчёт, закон или тренд с датой и источником, привязанный к точке на глобусе (или помеченный «◇ вне географии», если это абстрактная сила — капитализм, миграция, VPN). Цвет узла = тематический слой (легенда слева: ресурсы/экология/потребление/контроль/миграция/AI/роботы). Дуги между узлами — причинно-следственная или тематическая связь («усиливает», «толкает к»), а не географическая близость. Обводка узла = достоверность: факт / прогноз / фантазия — управляется фильтром внизу. Слайдер времени раскрывает узлы по мере наступления их даты. Клик по узлу — карточка с источником.'};
+const MODES=[MAP_MODE_DEF,...INDEX_DEFS];
 const idxsel=document.getElementById('idxsel'),idxlegend=document.getElementById('idxlegend'),idxlow=document.getElementById('idxlow'),idxhigh=document.getElementById('idxhigh'),idxmeta=document.getElementById('idxmeta');
-INDEX_DEFS.forEach(def=>{
+MODES.forEach(def=>{
   const b=document.createElement('button');
   b.textContent=def.name+(def.ready?'':' · скоро');
+  b.dataset.id=def.id;
   if(!def.ready)b.classList.add('soon');
-  b.addEventListener('click',()=>{if(def.ready)selectIndex(def.id)});
+  b.addEventListener('click',()=>{if(def.ready)selectMode(def.id)});
   idxsel.appendChild(b);
 });
-function selectIndex(id){
+function selectMode(id){
   currentIndexId=id;
-  idxsel.querySelectorAll('button').forEach((b,i)=>b.classList.toggle('on',INDEX_DEFS[i].id===id));
-  const def=INDEX_DEFS.find(d=>d.id===id);
+  idxsel.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.id===id));
+  const def=MODES.find(d=>d.id===id);
   const idxbarEl=document.getElementById('idxbar'),idxlabelsEl=document.getElementById('idxlabels'),idxswatchesEl=document.getElementById('idxswatches'),pyrShowTiersEl=document.getElementById('pyrShowTiers');
   pyrShowTiersEl.style.display=(id==='pyramid')?'block':'none';
   if(id!=='pyramid')vPyr.classList.remove('open');
-  if(id==='influence'){
+  if(id==='map'){
+    mode='map';
+    civGlowGroup.visible=false;borderGroup.visible=false;indexGroup.visible=false;energyGroup.visible=false;refBorderGroup.visible=false;
+    nodeGroup.visible=true;arcGroup.visible=true;
+    legendEl.style.display='';civcapEl.style.display='none';infnote.style.display='none';timewrap.style.display='';
+    idxlegend.style.display='block';idxmeta.textContent=def.methodology;
+    idxbarEl.style.display='none';idxlabelsEl.style.display='none';idxswatchesEl.style.display='none';
+    applyFilters();
+  } else if(id==='influence'){
+    mode='influence';
+    nodeGroup.visible=false;arcGroup.visible=false;legendEl.style.display='none';
     civGlowGroup.visible=true;borderGroup.visible=true;indexGroup.visible=false;energyGroup.visible=false;refBorderGroup.visible=false;
     civcapEl.style.display='';infnote.style.display='';idxlegend.style.display='none';timewrap.style.display='';
     updateCivGlow();updateBorders();
   } else if(id==='energy'){
+    mode='influence';
+    nodeGroup.visible=false;arcGroup.visible=false;legendEl.style.display='none';
     civGlowGroup.visible=false;borderGroup.visible=false;indexGroup.visible=false;energyGroup.visible=true;refBorderGroup.visible=true;
     civcapEl.style.display='none';infnote.style.display='none';timewrap.style.display='';
     idxlegend.style.display='block';idxmeta.textContent=def.methodology;
@@ -1218,6 +1228,8 @@ function selectIndex(id){
     idxswatchesEl.innerHTML=cats.map(c=>`<div class="sw-row"><span class="sw-dot" style="background:${c[0]}"></span>${c[1]}</div>`).join('');
     applyEnergyTimeFilter();
   } else {
+    mode='influence';
+    nodeGroup.visible=false;arcGroup.visible=false;legendEl.style.display='none';
     civGlowGroup.visible=false;borderGroup.visible=false;indexGroup.visible=true;energyGroup.visible=false;refBorderGroup.visible=false;
     civcapEl.style.display='none';infnote.style.display='none';timewrap.style.display='';
     applyIndexColors(id);
@@ -1239,7 +1251,6 @@ timeEl.addEventListener('input',()=>{
   }
   if(mode==='influence' && currentIndexId==='energy'){applyEnergyTimeFilter();}
 });
-tabMap.onclick=toMap;tabInf.onclick=toInfluence;
 document.getElementById('pyrGoMap').addEventListener('click',()=>{vPyr.classList.remove('open');});
 document.getElementById('pyrShowTiers').addEventListener('click',()=>{vPyr.classList.add('open');});
 
@@ -1303,7 +1314,7 @@ chkLayerColor.addEventListener('change',rebuildArcMeshes);
 
 /* ---------- init ---------- */
 rebuildArcMeshes();
-toMap();
+selectMode('map');
 animate();
 
 // --- time-driven recolor for choropleth (AI) ---
