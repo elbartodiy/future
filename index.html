@@ -410,8 +410,9 @@ const ENERGY_FLOWS=[
 
   /* из Москвы/Сибири — то, что явно утекает в Китай */
   {from:{lng:118,lat:60,name:'Ковыктинское м-е (газ, «Сила Сибири»)'},to:{lng:116.4,lat:39.9,name:'Пекин'},type:'oil',color:'#e0a93b',startYear:2019,vol:2.2,
-   note:'Магистральный газопровод «Сила Сибири» — основной канал прямых поставок российского газа в Китай, растущий на фоне ухода с рынка ЕС. Запущен в 2019 году.',
-   source:{name:'seala.ru 2026',url:'https://seala.ru/lng/rossiyaeksport'}},
+   series:{unit:'млрд м³/год',pts:[{y:2020,v:4.1},{y:2021,v:10.39},{y:2022,v:15.4},{y:2023,v:22.73},{y:2024,v:31.12}]},
+   note:'Магистральный газопровод «Сила Сибири»: запущен в дек. 2019, ежегодно наращивал прокачку и достиг проектной мощности 38 млрд м³/год 1 дек. 2024. Реальный, документированный рост — не статика.',
+   source:{name:'Statista / Interfax 2024',url:'https://www.statista.com/statistics/1339128/gas-transported-via-power-of-siberia/'}},
   {from:{lng:37.6,lat:55.7,name:'Москва'},to:{lng:121.5,lat:31.2,name:'Шанхай'},type:'labor',color:'#e35d7b',startYear:2022,
    note:'После ухода западных брендов деньги за китайские автомобили, электронику и оборудование потекли из Москвы в Китай — обратная сторона того же «сырьевого придатка».',
    source:{name:'(структура импорта РФ после 2022)',url:''}},
@@ -432,9 +433,10 @@ const ENERGY_FLOWS=[
   {from:{lng:-72,lat:-13.5,name:'Перу (медь)'},to:{lng:116.4,lat:39.9,name:'Пекин'},type:'minerals',color:'#a67ce0',
    note:'Китайские компании владеют крупными медными рудниками в Перу (Лас-Бамбас и др.) — часть той же гонки за медь, что и в Чили и Конго.',
    source:{name:'CFR март 2026',url:'https://www.cfr.org/articles/china-in-latin-america-march-2026'}},
-  {from:{lng:121.6,lat:-2.0,name:'Моровали, Индонезия (никель)'},to:{lng:121.5,lat:31.2,name:'Шанхай'},type:'minerals',color:'#a67ce0',startYear:2015,vol:1.2,
-   note:'Индонезия — крупнейший в мире производитель никеля; китайские инвестиции доминируют в переработке для аккумуляторов электромобилей. Бум начался в середине 2010-х.',
-   source:{name:'(структура никелевой отрасли Индонезии)',url:''}},
+  {from:{lng:121.6,lat:-2.0,name:'Моровали, Индонезия (никель)'},to:{lng:121.5,lat:31.2,name:'Шанхай'},type:'minerals',color:'#a67ce0',startYear:2020,vol:1.2,
+   series:{unit:'тыс.т файнштейна',pts:[{y:2020,v:10.8},{y:2023,v:300.5}]},
+   note:'Январь 2020: Индонезия ввела полный запрет экспорта сырой никелевой руды, заставив перерабатывать её на месте. Экспорт никелевого файнштейна/ферроникеля в Китай вырос в разы за 2020-2023 (импорт файнштейна Китаем из Индонезии: 93% от всего объёма к 2023). Реальный, датированный политический сдвиг, а не фон.',
+   source:{name:'SMM 2024 / The Diplomat 2025',url:'https://thediplomat.com/2025/02/the-nickel-based-industrial-paradox-indonesian-resources-chinese-profits/'}},
 
   /* ===== США — и куда приходит, и что уходит наружу ===== */
   {from:{lng:-95,lat:53,name:'Западная Канада (нефть)'},to:{lng:-97.7,lat:30.3,name:'Техас'},type:'oil',color:'#e0a93b',vol:1.4,
@@ -443,17 +445,45 @@ const ENERGY_FLOWS=[
   {from:{lng:121,lat:24.0,name:'Тайвань (передовые чипы, TSMC)'},to:{lng:-122.4,lat:37.8,name:'Сан-Франциско'},type:'data',color:'#36c5c0',vol:2.0,
    note:'Тайвань производит подавляющее большинство самых передовых чипов в мире (TSMC) — вся американская AI-индустрия критически зависит от одного острова.',
    source:{name:'(структура мирового рынка полупроводников)',url:''}},
-  {from:{lng:-97.7,lat:30.3,name:'Техас (СПГ)'},to:{lng:8,lat:49.5,name:'Европ. ядро'},type:'oil',color:'#e0a93b',startYear:2022,vol:1.6,
-   note:'После обвала поставок российского газа США стали крупнейшим поставщиком СПГ в Европу — прямая замена одной зависимости на другую.',
-   source:{name:'(структура энергоимпорта ЕС после 2022)',url:''}},
+  {from:{lng:-97.7,lat:30.3,name:'Техас (СПГ)'},to:{lng:8,lat:49.5,name:'Европ. ядро'},type:'oil',color:'#e0a93b',startYear:2021,vol:1.6,
+   series:{unit:'млрд куб.футов/сутки',pts:[{y:2021,v:2.4},{y:2022,v:6.5},{y:2023,v:7.1},{y:2024,v:5.4}]},
+   note:'После обвала трубопроводных поставок российского газа США стали крупнейшим поставщиком СПГ в Европу (доля Европы в экспорте США выросла с 34% в 2021 до 69% в 2022) — прямая замена одной зависимости на другую. В 2024 объём просел на 24% на фоне тёплой зимы и высоких запасов газа в Европе.',
+   source:{name:'EIA (US Energy Information Administration)',url:'https://www.eia.gov/todayinenergy/detail.php?id=61483'}},
   {from:{lng:-122.4,lat:37.8,name:'Сан-Франциско (оружие/технологии)'},to:{lng:35.2,lat:31.8,name:'Ближний Восток'},type:'labor',color:'#e35d7b',vol:1.1,
    note:'США — крупнейший в мире экспортёр вооружений; значительная доля идёт союзникам на Ближнем Востоке.',
    source:{name:'(структура мирового рынка вооружений)',url:''}},
-  {from:{lng:37.6,lat:55.7,name:'Москва'},to:{lng:8,lat:49.5,name:'Европ. ядро'},type:'oil',color:'#e0a93b',endYear:2022,vol:1.8,
-   note:'До 2022 года Россия была крупнейшим поставщиком газа в Европу (в основном через «Северный поток»); поток прервался после подрыва трубопроводов и санкций.',
-   source:{name:'(история газового рынка ЕС)',url:''}},
-
-
+  {from:{lng:37.6,lat:55.7,name:'Москва'},to:{lng:8,lat:49.5,name:'Европ. ядро'},type:'oil',color:'#e0a93b',vol:1.8,
+   series:{unit:'млрд м³/год',pts:[{y:2021,v:140},{y:2022,v:63},{y:2023,v:27}]},
+   note:'Трубопроводный газ из России в ЕС рухнул более чем на 80% за два года: подрыв «Северных потоков» (сент. 2022) и остановка транзита через Украину. Поток не исчез полностью, но сжался до статистической погрешности от уровня 2021 года.',
+   source:{name:'EIA / Bruegel',url:'https://www.eia.gov/todayinenergy/detail.php?id=53379'}},
+  /* Систематическая подборка на реальных данных UN Comtrade / USGS / EIA, июль 2026 — с реальными рядами по годам, где они нашлись */
+  {from:{lng:-69,lat:-23,name:'Атакама, Чили (медь)'},to:{lng:116.4,lat:39.9,name:'Пекин'},type:'minerals',color:'#a67ce0',vol:1.8,
+   series:{unit:'$млрд/год (экспорт руды)',pts:[{y:2022,v:15.6},{y:2023,v:19.75},{y:2024,v:20.9}]},
+   note:'Чили — крупнейший в мире экспортёр медной руды/концентрата, Китай — основной покупатель. Структурный, растущий поток на фоне спроса на медь для электросетей и электромобилей.',
+   source:{name:'OEC (Observatory of Economic Complexity)',url:'https://oec.world/en/profile/bilateral-product/copper-ore/reporter/chl'}},
+  {from:{lng:-72,lat:-13.5,name:'Куско, Перу (медь)'},to:{lng:116.4,lat:39.9,name:'Пекин'},type:'minerals',color:'#a67ce0',vol:1.5,
+   series:{unit:'$млрд/год (импорт Китая)',pts:[{y:2023,v:15.9},{y:2024,v:17.09}]},
+   note:'Перу — второй в мире экспортёр медной руды после Чили; Китай поглощает подавляющую часть.',
+   source:{name:'OEC / Trading Economics',url:'https://tradingeconomics.com/china/imports/peru/copper-ores-concentrates'}},
+  {from:{lng:-66.8,lat:-24.2,name:'Пуна, Аргентина (литий)'},to:{lng:116.4,lat:39.9,name:'Пекин'},type:'minerals',color:'#a67ce0',vol:0.9,
+   series:{unit:'$млн/год (импорт Китая)',pts:[{y:2020,v:56},{y:2023,v:478}]},
+   note:'Аргентина — быстрорастущий поставщик лития; Китай — основной покупатель карбоната лития. Добыча Аргентины должна вырасти с ~44 тыс.т (2023) до 260 тыс.+ т к 2027.',
+   source:{name:'OEC / Statista',url:'https://www.statista.com/statistics/875273/argentina-lithium-export-value/'}},
+  {from:{lng:150,lat:-23,name:'Бассейн Боуэн, Австралия (уголь)'},to:{lng:116.4,lat:39.9,name:'Пекин'},type:'oil',color:'#e0a93b',vol:1.3,
+   series:{unit:'млн т/год (оценка)',pts:[{y:2019,v:95},{y:2021,v:2}]},
+   note:'Конец 2020: Китай ввёл неофициальный запрет на импорт австралийского угля на фоне дипломатического конфликта — поток обвалился почти до нуля за год. В янв. 2023 Китай начал разрешать возврат, торговля формально возобновилась в марте 2023 (точный объём восстановления не подтверждён источниками).',
+   source:{name:'The Diplomat / S&P Global',url:'https://thediplomat.com/2023/01/whats-behind-chinas-resumed-imports-of-australian-coal/'}},
+  {from:{lng:110,lat:40.6,name:'Баян-Обо, Китай (редкозёмы)'},to:{lng:-77,lat:38.9,name:'США'},type:'minerals',color:'#a67ce0',vol:0.8,
+   series:{unit:'$млн/год (импорт США)',pts:[{y:2022,v:208},{y:2023,v:190},{y:2024,v:170}]},
+   note:'Китай обеспечивал ~70% импорта редкозёмов США в 2020-23; в дек. 2023 Китай запретил экспорт технологий разделения/переработки редкозёмов, далее вводил новые ограничения именно против США — поток снижается год за годом на фоне управляемого сжатия предложения.',
+   source:{name:'USGS Mineral Commodity Summaries 2024 / The Motley Fool',url:'https://www.fool.com/research/rare-earths-trade-statistics/'}},
+  {from:{lng:39.7,lat:45.0,name:'Кубань/Ростов, Россия (пшеница)'},to:{lng:31.2,lat:30.0,name:'Каир'},type:'food',color:'#4cae6b',vol:1.4,
+   series:{unit:'млн т/сельхозгод',pts:[{y:2021,v:5},{y:2023,v:8.7},{y:2024,v:8.2}]},
+   note:'Россия — крупнейший поставщик пшеницы в Египет на протяжении всей войны в Украине: продовольствие и удобрения не попали под западные санкции, поэтому поток не только не прервался, но и вырос.',
+   source:{name:'Fastmarkets / World Grain',url:'https://www.fastmarkets.com/insights/russia-posts-record-wheat-exports-for-2023-24/'}},
+  {from:{lng:30.7,lat:46.5,name:'Одесса, Украина (зерно)'},to:{lng:31.2,lat:30.0,name:'Каир'},type:'food',color:'#4cae6b',startYear:2022,endYear:2023,vol:1.0,
+   note:'«Черноморская зерновая инициатива» (ООН, июль 2022 — июль 2023): за год из 3 украинских портов вывезено 32+ млн т продовольствия в 45 стран, Египет получил 1.6 млн т — крупнейший получатель в Африке. Инициатива не продлена Россией в июле 2023 — само прекращение потока тоже задокументированный факт.',
+   source:{name:'UN — Black Sea Grain Initiative',url:'https://www.un.org/en/black-sea-grain-initiative/achievements'}},
 ];
 /* Стрелки-потоки миграции по десятилетиям (слой "Миграция" в режиме "Карта"), тот же рендер-движок, что и ENERGY_FLOWS.
    type определяет цвет: labor=трудовая, refugee=вынужденная, skilled=утечка мозгов, wealth=состоятельные/инвесторы.
@@ -886,12 +916,35 @@ function greatCircleArcPoints(a,b,segments,maxAlt){
   }
   return pts;
 }
+// Real documented year→value points (bcm, Mt, $B — unit stays whatever the source reports, only used
+// relative to its own series' peak). Interpolates between the two nearest anchors; outside the
+// covered range it holds the nearest endpoint flat rather than guessing a trend.
+function seriesValueAt(series,year){
+  const pts=series.pts;
+  if(year<=pts[0].y)return pts[0].v;
+  if(year>=pts[pts.length-1].y)return pts[pts.length-1].v;
+  for(let i=0;i<pts.length-1;i++){
+    const a=pts[i],b=pts[i+1];
+    if(year>=a.y&&year<=b.y){
+      const t=(year-a.y)/(b.y-a.y);
+      return a.v+(b.v-a.v)*t;
+    }
+  }
+  return pts[pts.length-1].v;
+}
 function applyEnergyTimeFilter(){
   const y=+timeEl.value;
   energyMeshes.forEach(m=>{
     const sy=m.def.startYear||1970; // undated flows are treated as longstanding/structural, always shown
     const ey=m.def.endYear||9999;
     m.group.visible=energyGroup.visible&&(y>=sy)&&(y<ey);
+    if(m.def.series){
+      const cur=seriesValueAt(m.def.series,y);
+      const peak=Math.max(...m.def.series.pts.map(p=>p.v));
+      const intensity=Math.max(0.08,cur/peak); // floor so a "shrunk to near-nothing" flow (e.g. Russia→EU gas post-2022) still reads as present, not erased
+      m.core.material.opacity=m.baseCoreOpacity*intensity;
+      m.glow.material.opacity=m.baseGlowOpacity*intensity;
+    }
   });
 }
 function buildEnergyFlows(){
@@ -906,8 +959,9 @@ function buildEnergyFlows(){
     const path=new THREE.CatmullRomCurve3(greatCircleArcPoints(a,b,48,alt));
     const color=new THREE.Color(f.color);
     const rCore=0.5+vol*0.5, rGlow=1.2+vol*1.1;
-    const core=new THREE.Mesh(coloredTubeGeom(path,48,rCore,6,color),new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:Math.min(.92,.5+vol*.13)}));
-    const glow=new THREE.Mesh(coloredTubeGeom(path,48,rGlow,6,color),new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:Math.min(.4,.12+vol*.04),blending:THREE.AdditiveBlending,depthWrite:false}));
+    const baseCoreOpacity=Math.min(.92,.5+vol*.13), baseGlowOpacity=Math.min(.4,.12+vol*.04);
+    const core=new THREE.Mesh(coloredTubeGeom(path,48,rCore,6,color),new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:baseCoreOpacity}));
+    const glow=new THREE.Mesh(coloredTubeGeom(path,48,rGlow,6,color),new THREE.MeshBasicMaterial({vertexColors:true,transparent:true,opacity:baseGlowOpacity,blending:THREE.AdditiveBlending,depthWrite:false}));
     // invisible, generously-thick tube used only for click detection — the visible core is often too thin to hit reliably
     const hit=new THREE.Mesh(new THREE.TubeGeometry(path,48,Math.max(7,rCore*2.8),6,false),new THREE.MeshBasicMaterial({visible:false}));
     const particle=new THREE.Mesh(new THREE.SphereGeometry(1.4+vol*0.3,8,8),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.92,blending:THREE.AdditiveBlending,depthWrite:false}));
@@ -917,7 +971,7 @@ function buildEnergyFlows(){
     dstDot.position.copy(b);
     const g=new THREE.Group();g.add(glow);g.add(core);g.add(hit);g.add(particle);g.add(srcDot);g.add(dstDot);
     energyGroup.add(g);
-    energyMeshes.push({group:g,curve:path,def:f,particle,core,hit,phase:i*0.11+0.03});
+    energyMeshes.push({group:g,curve:path,def:f,particle,core,hit,baseCoreOpacity,baseGlowOpacity,phase:i*0.11+0.03});
   });
 }
 buildEnergyFlows();
@@ -936,9 +990,15 @@ function openEnergySheet(m){
   const f=m.def;
   document.getElementById('s-layer').textContent='Энергия и ресурсы';document.getElementById('s-layer').style.color=f.color;
   document.getElementById('s-title').textContent=`${f.from.name} → ${f.to.name}`;
-  document.getElementById('s-when').textContent={minerals:'сырьё/минералы',oil:'нефть/газ/энергия',food:'продовольствие',data:'данные/облако',labor:'человеческий капитал'}[f.type]||f.type;
+  const typeLabel={minerals:'сырьё/минералы',oil:'нефть/газ/энергия',food:'продовольствие',data:'данные/облако',labor:'человеческий капитал'}[f.type]||f.type;
+  document.getElementById('s-when').textContent=f.series?`${typeLabel} · ${f.series.unit}, на ${(+timeEl.value)} год: ${seriesValueAt(f.series,+timeEl.value).toFixed(1)}`:typeLabel;
   const c=document.getElementById('s-cert');c.textContent='факт';c.className='cert fact';
-  document.getElementById('s-body').textContent=f.note;
+  let body=f.note;
+  if(f.series){
+    const trend=f.series.pts.map(p=>`${p.y}: ${p.v}${f.series.unit}`).join(' → ');
+    body+='\n\nПо годам: '+trend;
+  }
+  document.getElementById('s-body').textContent=body;
   document.getElementById('s-geo').textContent='📍 '+f.from.name+' → '+f.to.name;
   document.getElementById('s-rel').innerHTML='';
   const src=document.getElementById('s-src');
