@@ -741,13 +741,23 @@ const borderMeshes={};
 // that happen to have index data — a country with no data still gets a real outline, not a void.
 const refBorderGroup=new THREE.Group();refBorderGroup.visible=false;globeGroup.add(refBorderGroup);
 (function(){
+  // One merged LineSegments draw call for all ~285 country/island rings instead of 285 separate
+  // LineLoop objects — same visual result, far lighter on the GPU (this many small line meshes was
+  // part of what made the choropleth-recolor perf bug above so damaging).
   const mat=new THREE.LineBasicMaterial({color:0x5a6b7a,transparent:true,opacity:.55});
+  const positions=[];
   for(const k in COUNTRY_POLYS){
     COUNTRY_POLYS[k].p.forEach(ring=>{
       const pts=ring.map(p=>ll2v(p[1],p[0],R*1.009));
-      refBorderGroup.add(new THREE.LineLoop(new THREE.BufferGeometry().setFromPoints(pts),mat));
+      for(let i=0;i<pts.length;i++){
+        const a=pts[i],b=pts[(i+1)%pts.length];
+        positions.push(a.x,a.y,a.z,b.x,b.y,b.z);
+      }
     });
   }
+  const geom=new THREE.BufferGeometry();
+  geom.setAttribute('position',new THREE.Float32BufferAttribute(positions,3));
+  refBorderGroup.add(new THREE.LineSegments(geom,mat));
 })();
 
 // civ influence glow — a true 3D geodesic disc glued to the sphere surface (never digs a hole, unlike a flat camera-facing sprite)
@@ -1578,7 +1588,10 @@ function selectMode(id){
 let indexTimePending=false;
 timeEl.addEventListener('input',()=>{
   const def=INDEX_DEFS.find(d=>d.id===currentIndexId);
-  if(mode==='influence' && def && def.kind==='gradient' && !indexTimePending){
+  // Throttled to one recolor per animation frame, not one per raw 'input' event — a slider drag can
+  // fire dozens of input events per second, and repainting+re-uploading a 2048x1024 choropleth texture
+  // that often (now covering 175 countries, not the original 14) was heavy enough to lose the WebGL context.
+  if(mode==='influence' && def && (def.kind==='gradient'||def.kind==='choropleth') && !indexTimePending){
     indexTimePending=true;
     requestAnimationFrame(()=>{applyIndexColors(currentIndexId);indexTimePending=false;});
   }
@@ -1649,19 +1662,6 @@ chkLayerColor.addEventListener('change',rebuildArcMeshes);
 rebuildArcMeshes();
 selectMode('map');
 animate();
-
-// --- time-driven recolor for choropleth (AI) ---
-if(typeof timeEl!=='undefined'){
-  timeEl.addEventListener('input',()=>{
-    if(typeof currentIndexId!=='undefined'){
-      const def=INDEX_DEFS.find(d=>d.id===currentIndexId);
-      if(def && def.kind==='choropleth' && typeof applyIndexColors==='function'){
-        applyIndexColors(currentIndexId);
-        if(typeof indexTex!=='undefined' && indexTex) indexTex.needsUpdate=true;
-      }
-    }
-  });
-}
 </script>
 </body>
 </html>
